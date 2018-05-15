@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * author: Shawn
  * time  : 5/11/18 4:09 PM
