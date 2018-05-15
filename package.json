@@ -8,7 +8,7 @@
   },
   "bin": {
     "rshell": "./src/rshell.js",
-    "rsserver": "./app/shell_manager.js"
+    "rsserver": "./src/app/shell_manager.js"
   },
   "author": "Shawn",
   "license": "Apache-2.0",
