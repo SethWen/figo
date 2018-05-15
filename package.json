@@ -7,13 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "radb": "./src/rshell.js"
+    "rshell": "./src/rshell.js",
+    "rsserver": "./app/shell_manager.js"
   },
   "author": "Shawn",
   "license": "Apache-2.0",
   "dependencies": {
     "bunyan": "^1.8.12",
-    "config": "^1.30.0",
     "request": "^2.85.0",
     "restify": "^7.1.1",
     "uuid": "^3.2.1",

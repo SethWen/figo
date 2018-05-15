@@ -5,7 +5,6 @@
  * update: Shawn 5/14/18 4:54 PM
  */
 
-const config = require('config');
 const restify = require('restify');
 const log = require('./util/log');
 const response = require('./util/response');
@@ -38,7 +37,8 @@ class ManagerServer {
 
 
         this.server.server.setTimeout(0);
-        let port = config.get('managerServer').port;
+        // todo 5/15/18 3:37 PM
+        let port = 9001;
         this.server.listen(port, () => {
             log.info(`adb manager is listening on port ${port}`);
         });

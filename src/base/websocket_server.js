@@ -8,7 +8,6 @@
 const EventEmitter = require('events');
 const {Server} = require('ws');
 const log = require('../util/log');
-const config = require('config');
 const DigestUtil = require('../util/digest_util');
 
 
@@ -35,7 +34,7 @@ class WebSocketServer extends EventEmitter {
 
     constructor() {
         super();
-        this.port = config.get('websocket').port;
+        this.port = 8080;
         this.server = new Server({
             port: this.port,
             perMessageDeflate: {

@@ -11,8 +11,6 @@ const EventEmitter = require('events');
 const os = require('os');
 const process = require('process');
 const WebSocketEvent = require('../constant/websocket_event');
-const log = require('../util/log');
-const config = require('config');
 const DigestUtil = require('../util/digest_util');
 const sleep = require('../util/sleep');
 const uuid = require('../util/uuid');
@@ -42,13 +40,15 @@ class BaseLocalClient extends EventEmitter {
 
 
     async connect() {
-        let webSocketConfig = config.get('websocket');
-        let uri = `ws://${webSocketConfig.host}:${webSocketConfig.port}`;
+        let host = 'localhost';
+        let port = '8080';
+        let uri = `ws://${host}:${port}`;
         let stamp = Date.now();
         // sign = md5(`${webSocketConfig.cipher}${os.hostname()}${type}${process.pid}${stamp}`)
-        let token = DigestUtil.str2md5(`${webSocketConfig.cipher}${os.hostname()}${this.type}${process.pid}${stamp}`);
-        log.info(`connecting... token: ${token}`);
-
+        // let token = DigestUtil.str2md5(`${webSocketConfig.cipher}${os.hostname()}${this.type}${process.pid}${stamp}`);
+        // console.log(`connecting... token: ${token}`);
+        // todo 5/15/18 3:37 PM
+        let token = 'hahah';
         // 此处可能重复执行，所以在设置监听前先移除所有
         this.once('close', this.onClose.bind(this));
 
@@ -71,13 +71,13 @@ class BaseLocalClient extends EventEmitter {
             );
 
             this.client.on('open', async () => {
-                log.info(`WebSocket Client onOpen: ${this.client.readyState}`);
+                console.log(`WebSocket Client onOpen: ${this.client.readyState}`);
                 resolve(1)
             });
 
             this.client.on('error', async (error) => {
                 if (this.isFirst) {
-                    log.error(`WebSocket Client onError: ${error}`);
+                    console.error(`WebSocket Client onError: ${error}`);
                     resolve(-1);
                 } else { // socket 重连接机制
                     await this.run();
@@ -89,7 +89,7 @@ class BaseLocalClient extends EventEmitter {
             this.client.on('close', async (code, reason) => {
                 this.emit('close');
                 if (this.isFirst) {
-                    log.error(`WebSocket Client onClose: ${reason}`);
+                    console.error(`WebSocket Client onClose: ${reason}`);
                     resolve(-1);
                 } else { // socket 重连接机制
                     await this.run();
@@ -100,11 +100,11 @@ class BaseLocalClient extends EventEmitter {
             this.client.on('message', this.webSocketMessageHandler.bind(this));
 
             this.client.on('ping', (data) => {
-                log.info(`WebSocket Client onPing: ${data}`);
+                console.log(`WebSocket Client onPing: ${data}`);
             });
 
             this.client.on('pong', (data) => {
-                log.info(`WebSocket Client onPong: ${data}`);
+                console.log(`WebSocket Client onPong: ${data}`);
             });
         });
     }
@@ -149,7 +149,7 @@ class BaseLocalClient extends EventEmitter {
         //         break;
         //     case WebSocketEvent.CREATE_AGENT:
         //         this.agentId = data['agentId'];
-        //         log.info(`An agent is created on the remote, which agentId is ${this.agentId}`);
+        //         console.log(`An agent is created on the remote, which agentId is ${this.agentId}`);
         //         await this.onAgentCreate();
         //         break;
         //     case WebSocketEvent.NEW_TASK:
