@@ -9,7 +9,7 @@
 const process = require('process');
 const readline = require('readline');
 
-const BaseClient = require('./base/base_client');
+const BaseClient = require('../../base/base_client');
 
 
 SHELL_STATUS = true;
@@ -27,12 +27,12 @@ async function readLine() {
 }
 
 
-class RadbShell extends BaseClient {
+class Rshell2 extends BaseClient {
 
     constructor(adbId) {
         super();
         this.agentName = 'RadbShell';
-        this.type = 'radb';
+        this.type = 'remote';
         this.adbId = adbId;
     }
 
@@ -72,4 +72,4 @@ class RadbShell extends BaseClient {
 }
 
 
-module.exports = RadbShell;
+module.exports = Rshell2;

@@ -5,14 +5,14 @@
  * update: Shawn 5/11/18 11:16 PM
  */
 
-const BaseClient = require('../base/base_client');
-const ShellUtil = require('../util/shell_util');
+const BaseClient = require('../../base/base_client');
+const ShellUtil = require('../../util/shell_util');
 
-class AdbShell extends BaseClient {
+class BashShell extends BaseClient {
 
-    constructor() {
-        super();
-        this.type = 'adb';
+    constructor(host, port) {
+        super(host, port);
+        this.type = 'local';
         this.adbId = '008'
     }
 
@@ -29,5 +29,5 @@ class AdbShell extends BaseClient {
     }
 }
 
-new AdbShell().run();
+new BashShell('localhost', 9125).run();
 

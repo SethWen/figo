@@ -9,9 +9,11 @@
 
 const process = require('process');
 const RequestUtil = require('./util/request_util');
-const RadbShell = require('./radb_shell');
+const RadbShell = require('./shell/remote/rshell2');
 
 /*
+radb -h localhost -p 9
+
 radb list
 radb -s 007 shell
 radb -h
@@ -30,6 +32,12 @@ async function listShell() {
         str += `${shell}\n`;
     }
     return str.trim();
+}
+
+
+async function shell() {
+    let radbShell = new RadbShell(id);
+    await radbShell.run();
 }
 
 async function main() {

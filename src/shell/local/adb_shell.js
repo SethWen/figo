@@ -6,7 +6,7 @@
  */
 
 
-const BaseClient = require('../base/base_client');
+const BaseClient = require('../../base/base_client');
 
 class AdbShell extends BaseClient {
 

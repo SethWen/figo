@@ -8,7 +8,6 @@
 
 const {spawn, exec} = require('child_process');
 const os = require('os');
-const log = require('./log');
 
 
 /**
@@ -84,12 +83,12 @@ async function executeSync(script) {
         });
 
         shellScrip.stderr.on('data', (data) => {
-            log.error(`stderr: ${data}`);
+            console.error(`stderr: ${data}`);
             resolve(data.toString());
         });
 
         shellScrip.on('close', (code) => {
-            log.info(`Execute "${script}" finished and process exited with code ${code}`);
+            console.log(`Execute "${script}" finished and process exited with code ${code}`);
             resolve(code);
         });
     })
@@ -107,7 +106,7 @@ async function findPidByPort(port) {
                 let split = ret.split(/\s+/g);
                 pid = split[split.length - 1]; // 获取该端口对应的 pid
             } catch (error) {
-                log.error(error);
+                console.error(error);
             }
         }
     } else if (systemType.match(/linux/g)) {    // linux
@@ -117,7 +116,7 @@ async function findPidByPort(port) {
                 let processInfo = ret.split('\n')[1];
                 pid = processInfo.split(/\s+/g)[1];
             } catch (error) {
-                log.error(error);
+                console.error(error);
             }
         }
     } else if (systemType.match(/darwin/g)) {   // mac
@@ -128,13 +127,13 @@ async function findPidByPort(port) {
                 let processInfo = ret.split('\n')[1];
                 pid = processInfo.split(/\s+/g)[1];
             } catch (error) {
-                log.error(error);
+                console.error(error);
             }
         }
     } else {
         throw new Error('Invalid os type.');
     }
-    log.info(`Port ${port} is occupied by process ${pid}`);
+    console.log(`Port ${port} is occupied by process ${pid}`);
     return pid;
 }
 

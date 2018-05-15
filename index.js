@@ -6,4 +6,4 @@
  */
 
 
-module.exports = require('./src/rshell');
+module.exports = require('./src/rshell_client');

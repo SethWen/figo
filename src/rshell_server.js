@@ -6,16 +6,20 @@
  */
 
 const restify = require('restify');
-const log = require('./util/log');
 const response = require('./util/response');
+const WebSocketServer = require('./base/websocket_server');
+const MiddleMan = require('./base/middle_man');
 
+global.adbSockets = new Map();
 
 class ManagerServer {
     constructor() {
         this.server = restify.createServer({
-            name: `ManagerServer`,
-            log: log
+            name: `RshellServer`,
+            // log: log
         });
+
+        this.webSocketServer = new WebSocketServer(this.server);
     }
 
 
@@ -37,10 +41,31 @@ class ManagerServer {
 
 
         this.server.server.setTimeout(0);
+
         // todo 5/15/18 3:37 PM
-        let port = 9001;
+        let port = 9125;
         this.server.listen(port, () => {
-            log.info(`adb manager is listening on port ${port}`);
+            console.log(`adb manager is listening on port ${port}`);
+        });
+
+        this.webSocketServer.run();
+        this.webSocketServer.setOnConnectionListener(async (socket, request) => {
+            // 收到 WebSocketClient 的连接请求，创建 Agent
+            let options = request.headers;
+            let type = options.type;
+            console.log('options -->  = ', options);
+            if (type === 'local') {
+                console.log('local -->  = ');
+                global.adbSockets.set(options.id, socket);
+            } else if (type === 'remote') {
+                // radb
+                console.log('remote -->  = ');
+                // global.radbSockets.set(options.id, socket);
+                let middleMan = new MiddleMan(global.adbSockets.get(options.adbId), socket);
+                await middleMan.run();
+            } else {
+                throw new Error('Invalid type.');
+            }
         });
     }
 
@@ -56,5 +81,7 @@ class ManagerServer {
     }
 }
 
+let managerServer = new ManagerServer();
+managerServer.run();
 
 module.exports = ManagerServer;

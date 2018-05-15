@@ -19,8 +19,11 @@ const uuid = require('../util/uuid');
 class BaseLocalClient extends EventEmitter {
 
 
-    constructor() {
+    constructor(host, port) {
         super();
+        this.host = host || 'localhost';
+        this.port = port || 9125;
+
         this.type = null;
         this.devices = null;
         this.agentName = null;
@@ -40,9 +43,8 @@ class BaseLocalClient extends EventEmitter {
 
 
     async connect() {
-        let host = 'localhost';
-        let port = '8080';
-        let uri = `ws://${host}:${port}`;
+        let uri = this.generateUri();
+
         let stamp = Date.now();
         // sign = md5(`${webSocketConfig.cipher}${os.hostname()}${type}${process.pid}${stamp}`)
         // let token = DigestUtil.str2md5(`${webSocketConfig.cipher}${os.hostname()}${this.type}${process.pid}${stamp}`);
@@ -59,7 +61,7 @@ class BaseLocalClient extends EventEmitter {
                 {
                     perMessageDeflate: false,
                     headers: {
-                        id: this.adbId,
+                        id: '008',
                         token: token,
                         hostname: os.hostname(),
                         type: this.type,
@@ -109,6 +111,15 @@ class BaseLocalClient extends EventEmitter {
         });
     }
 
+
+    generateUri(uri) {
+        if (this.port) {
+            uri = `ws://${this.host}:${this.port}`;
+        } else {
+            uri = `ws://${this.host}`;
+        }
+        return uri;
+    }
 
     async run() {
         this.isFirst = true;

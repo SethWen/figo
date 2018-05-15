@@ -7,7 +7,6 @@
 
 const EventEmitter = require('events');
 const {Server} = require('ws');
-const log = require('../util/log');
 const DigestUtil = require('../util/digest_util');
 
 
@@ -32,57 +31,23 @@ function checkToken(headers, callback) {
 
 class WebSocketServer extends EventEmitter {
 
-    constructor() {
+    constructor(server) {
         super();
-        this.port = 8080;
-        this.server = new Server({
-            port: this.port,
-            perMessageDeflate: {
-                zlibDeflateOptions: { // See zlib defaults.
-                    chunkSize: 1024,
-                    memLevel: 7,
-                    level: 3,
-                },
-                zlibInflateOptions: {
-                    chunkSize: 10 * 1024
-                },
-                // Other options settable:
-                clientNoContextTakeover: true, // Defaults to negotiated value.
-                serverNoContextTakeover: true, // Defaults to negotiated value.
-                clientMaxWindowBits: 10,       // Defaults to negotiated value.
-                serverMaxWindowBits: 10,       // Defaults to negotiated value.
-                // Below options specified as default values.
-                concurrencyLimit: 10,          // Limits zlib concurrency for perf.
-                threshold: 1024,               // Size (in bytes) below which messages
-                                               // should not be compressed.
-
-            },
-            clientTracking: true,
-            // path: 'bordeaux',
-            verifyClient: (info, cb) => {
-                // let token = info.req.headers.token;
-                // let agent = info.req.headers.hostname;
-                let headers = info.req.headers;
-                log.info(`headers from WebSocketClient is ${JSON.stringify(headers)}`);
-                checkToken(headers, (isValid) => {
-                    cb(isValid);
-                })
-            }
-        });
+        this.server = new Server({server: server});
     }
 
 
     run() {
         this.server.on('error', (error) => {
-            log.error(`WebSocketServer error: ${error}`);
+            console.error(`WebSocketServer error: ${error}`);
         });
 
         this.server.on('headers', (headers, request) => {
-            log.info(`WebSocketServer headers: ${headers}`);
+            console.log(`WebSocketServer headers: ${headers}`);
         });
 
         this.server.on('listening', () => {
-            log.info(`WebSocketServer is established and listening on port ${this.port}`);
+            console.log(`WebSocketServer is established and listening on port ${this.server}`);
         });
     }
 
