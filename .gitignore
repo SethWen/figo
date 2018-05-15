@@ -1,0 +1,24 @@
+
+# 忽略node的依赖库
+node_modules/
+
+# 忽略日志信息
+*.log
+/log
+
+# 忽略本地的配置文件
+config/default.json
+
+# 忽略Visual Studio Code自动生成文件
+.idea/
+.vscode/
+
+# 忽略本地备份(如确实需要备份，可以考虑更改此选项，或者重命名其他后缀)
+*.bak
+
+# 忽略测试报告文件
+mochawesome-report/
+
+# android-tools
+android/
+

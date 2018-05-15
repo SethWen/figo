@@ -1,0 +1,22 @@
+{
+  "name": "rshell",
+  "version": "1.8.0",
+  "description": "remote android debug bridge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "radb": "./src/rshell.js"
+  },
+  "author": "Shawn",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "config": "^1.30.0",
+    "request": "^2.85.0",
+    "restify": "^7.1.1",
+    "uuid": "^3.2.1",
+    "ws": "^5.1.1"
+  }
+}

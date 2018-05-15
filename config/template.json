@@ -1,0 +1,113 @@
+{
+  "mongodb": {
+    //mongodb配置
+    "user": "",
+    "pass": "",
+    "host": "localhost",
+    "port": "27017",
+    "replicaSet": {
+      "name": "",
+      "members": [
+        {
+          "host": "localhost",
+          "port": "27017"
+        },
+        {
+          "host": "localhost",
+          "port": "27027"
+        },
+        {
+          "host": "localhost",
+          "port": "27037"
+        }
+      ]
+    },
+    "db": "crawlerdb"
+  },
+  "redis": {
+    "host": "localhost",
+    "port": 6379,
+    "db": 0,
+    "password": ""
+  },
+  "rabbitmq": {
+    //rabbitmq配置
+    "host": "localhost",
+    "port": 5672,
+    "username": "",
+    "password": "",
+    "vhost": "/",
+    "androidTaobaoQueue": {
+      "queueName": "app_taobao_task_queue"
+    },
+    "androidAlipayQueue": {
+      "queueName": "app_alipay_task_queue"
+    },
+    "otherOrdinaryQueue": {
+      "queueName": "other...",
+      "prefetch": "10"
+    },
+    "frontendQueue": {
+      "queueName": "frontend_notification_queue",
+      "prefetch": 10
+    }
+  },
+  "websocket": {
+    "host": "localhost",
+    "port": 8080,
+    "cipher": "NodePythonJava"
+  },
+  "agentManager": {
+    "port": 9801
+  },
+  "snapshot": {
+    "host": "http://172.16.10.111",
+    "port": "7777"
+  },
+  "captcha": {
+    //验证码服务配置
+    "chaojiying": {
+      //超级鹰配置
+      "username": "",
+      "password": "",
+      "softid": ""
+    }
+  },
+  "proxy": {
+    //ip代理配置
+    "is_use": false,
+    "from": 1,
+    "redis_db": ""
+  },
+  "logs": [
+    //日志配置
+    {
+      "level": "info",
+      "output": "./log/"
+    },
+    {
+      "level": "info",
+      "output": "stdout"
+    }
+  ],
+  "img": {
+    //临时图片配置
+    "path": "./image/"
+  },
+  "transactionDataPath": "./log/transaction",
+  // http访问日志
+  "spiderDataPath": "./log/spiderlog",
+  "numberAccuracy": 3,
+  "proxy_info_redis_db": "",
+  "use_proxy": false,
+  //是否使用代理
+  "proxy_router": "",
+  //代理路由
+  "request_timeout": 30,
+  //请求超时时间
+  "check_driller_rules_interval": 120,
+  "spider_concurrency": 100,
+  "request_retry": 3,
+  //请求重试次数
+  "to_much_fail_exit": false
+}
